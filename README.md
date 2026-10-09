@@ -2,6 +2,8 @@
 
 Product management case study: market research → user research & problem framing → solution (Voice Draft Mode).
 
+**Full case study (one PDF, all milestones + links):** [Case_Study_ChatGPT_Voice_India.pdf](./Case_Study_ChatGPT_Voice_India.pdf) · [HTML source](./Case_Study_ChatGPT_Voice_India.html)
+
 **Working prototype:** [https://steel-main-21529943.figma.site](https://steel-main-21529943.figma.site)
 
 ---
