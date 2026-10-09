@@ -23,7 +23,7 @@ Indians already use voice elsewhere (WhatsApp, Google). On **ChatGPT mobile**, t
 
 ---
 
-## Milestone 2 (summary)
+##User research and Problem Framing (summary)
 
 - **Segments considered:** students, job seekers, content creators, regional-language-first users, metro working professionals.
 - **Focus segment:** **Working professionals in India** on ChatGPT mobile (high activity, work prompts, highest revenue upside).
@@ -34,7 +34,7 @@ Indians already use voice elsewhere (WhatsApp, Google). On **ChatGPT mobile**, t
 
 ---
 
-## Milestone 3 (summary)
+## Prioritization, Metrics and Growth (summary)
 
 - **Three directions:** Voice Draft Mode (build) · Auto-organize / STAR guide (later) · Recognition & regional languages (out for this scope).
 - **Choice:** Voice Draft Mode—highest impact on the control barrier, lowest engineering risk in a 2-week window, aligned with 50% of survey + interview signal.
