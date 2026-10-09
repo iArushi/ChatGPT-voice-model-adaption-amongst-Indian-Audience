@@ -2,298 +2,549 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<title>Case Study — ChatGPT Voice Adoption in India</title>
+<title>Case Study — ChatGPT Voice · India</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <style>
-  @page { size: A4; margin: 14mm 16mm; }
+  @page { size: A4; margin: 0; }
   * { box-sizing: border-box; }
   body {
-    font-family: "Segoe UI", Calibri, Arial, sans-serif;
-    font-size: 11pt;
-    line-height: 1.45;
-    color: #1a1a1a;
     margin: 0;
+    font-family: "DM Sans", "Segoe UI", sans-serif;
+    font-size: 10.5pt;
+    line-height: 1.5;
+    color: #1c1917;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
-  a { color: #1a4a8a; word-break: break-all; }
+  a { color: #5c2430; font-weight: 500; }
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    padding: 16mm 18mm 18mm;
+    page-break-after: always;
+    position: relative;
+    overflow: hidden;
+  }
+  .page:last-child { page-break-after: auto; }
+
+  /* —— Cover —— */
   .cover {
-    min-height: 250mm;
+    background: linear-gradient(145deg, #3d1520 0%, #7a2e3a 42%, #a84858 100%);
+    color: #fff;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    page-break-after: always;
-    padding: 20mm 0;
+    justify-content: space-between;
+    padding: 22mm 20mm;
+  }
+  .cover-top { display: flex; justify-content: space-between; align-items: flex-start; }
+  .pill {
+    font-size: 8pt;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: rgba(255,255,255,0.15);
+    padding: 6px 14px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.25);
   }
   .cover h1 {
-    font-size: 32pt;
+    font-family: Fraunces, Georgia, serif;
+    font-size: 36pt;
     font-weight: 700;
-    margin: 0 0 12px;
-    line-height: 1.15;
-    color: #7a2e3a;
+    line-height: 1.08;
+    margin: 28px 0 16px;
+    max-width: 85%;
   }
-  .cover .sub { font-size: 14pt; color: #444; margin-bottom: 24px; }
-  .cover .meta { font-size: 11pt; color: #555; }
+  .cover .lead {
+    font-size: 13pt;
+    opacity: 0.92;
+    max-width: 88%;
+    line-height: 1.55;
+  }
+  .cover-illus {
+    position: absolute;
+    right: -20px;
+    bottom: 40mm;
+    opacity: 0.35;
+  }
+  .cover-bottom {
+    border-top: 1px solid rgba(255,255,255,0.2);
+    padding-top: 16px;
+    font-size: 10pt;
+    opacity: 0.9;
+  }
+  .cover-bottom strong { display: block; font-size: 11pt; margin-bottom: 4px; }
+  .tag-row { margin-top: 20px; display: flex; flex-wrap: wrap; gap: 8px; }
   .tag {
-    display: inline-block;
-    background: #faf6ef;
-    border: 1px solid #e0d4c0;
-    padding: 4px 10px;
-    border-radius: 4px;
-    font-size: 9pt;
-    margin: 4px 4px 0 0;
+    font-size: 8.5pt;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 6px;
+    background: rgba(255,248,234,0.95);
+    color: #3d1520;
   }
-  h2.section {
+
+  /* —— Section headers —— */
+  .section-bar {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 0 0 18px;
+    padding-bottom: 12px;
+    border-bottom: 3px solid #7a2e3a;
+  }
+  .section-num {
+    font-family: Fraunces, serif;
+    font-size: 28pt;
+    font-weight: 700;
+    color: #7a2e3a;
+    line-height: 1;
+    opacity: 0.35;
+  }
+  .section-bar h2 {
+    font-family: Fraunces, serif;
+    font-size: 20pt;
+    margin: 0;
+    color: #3d1520;
+    line-height: 1.15;
+  }
+  .section-bar p { margin: 2px 0 0; font-size: 9.5pt; color: #57534e; }
+
+  /* —— Journey strip —— */
+  .journey {
+    display: flex;
+    gap: 0;
+    margin: 16px 0 22px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #e7e5e4;
+  }
+  .journey-step {
+    flex: 1;
+    padding: 12px 10px;
+    text-align: center;
+    font-size: 8.5pt;
+    font-weight: 600;
+    background: #fafaf9;
+    border-right: 1px solid #e7e5e4;
+    position: relative;
+  }
+  .journey-step:last-child { border-right: none; background: #fff8ea; color: #7a2e3a; }
+  .journey-step span {
+    display: block;
+    font-size: 7pt;
+    font-weight: 500;
+    color: #78716c;
+    margin-top: 4px;
+  }
+
+  /* —— Stats —— */
+  .stats { display: flex; gap: 12px; margin: 16px 0; }
+  .stat-card {
+    flex: 1;
+    background: linear-gradient(180deg, #fff 0%, #faf6ef 100%);
+    border: 1px solid #e8dcc8;
+    border-radius: 14px;
+    padding: 16px 12px;
+    text-align: center;
+    box-shadow: 0 4px 14px rgba(61,21,32,0.06);
+  }
+  .stat-card .icon { margin-bottom: 8px; }
+  .stat-card b {
+    font-family: Fraunces, serif;
+    font-size: 26pt;
+    color: #7a2e3a;
+    display: block;
+    line-height: 1;
+  }
+  .stat-card span { font-size: 8.5pt; color: #57534e; display: block; margin-top: 6px; line-height: 1.35; }
+
+  /* —— Insight callout —— */
+  .callout {
+    background: #3d1520;
+    color: #fff;
+    border-radius: 14px;
+    padding: 18px 20px;
+    margin: 18px 0;
+    font-size: 11pt;
+    line-height: 1.5;
+  }
+  .callout em { color: #fcd34d; font-style: normal; font-weight: 600; }
+
+  /* —— Carousel slide cards —— */
+  .slide-card {
+    border-radius: 16px;
+    border: 1px solid #e7e5e4;
+    margin: 14px 0;
+    overflow: hidden;
+    page-break-inside: avoid;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.04);
+  }
+  .slide-head {
+    background: linear-gradient(90deg, #7a2e3a, #9e3d4f);
+    color: #fff;
+    padding: 10px 16px;
+    font-size: 8pt;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .slide-body { padding: 14px 16px; background: #fff; }
+  .slide-body h4 {
+    font-family: Fraunces, serif;
+    font-size: 14pt;
+    margin: 0 0 10px;
+    color: #3d1520;
+  }
+
+  /* —— Tables —— */
+  table { width: 100%; border-collapse: collapse; font-size: 9.5pt; margin: 10px 0; }
+  th {
+    background: #faf6ef;
+    color: #3d1520;
+    font-weight: 600;
+    text-align: left;
+    padding: 8px 10px;
+    border-bottom: 2px solid #e8dcc8;
+  }
+  td { padding: 7px 10px; border-bottom: 1px solid #f5f5f4; vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+
+  /* —— Flow —— */
+  .flow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 14px 0;
+  }
+  .flow-step {
+    flex: 1 1 30%;
+    min-width: 28%;
+    background: #fff8ea;
+    border: 1px dashed #d98e04;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 9pt;
+    position: relative;
+  }
+  .flow-step .n {
+    font-family: Fraunces, serif;
     font-size: 18pt;
     color: #7a2e3a;
-    margin: 0 0 8px;
-    page-break-after: avoid;
+    line-height: 1;
+    margin-bottom: 4px;
   }
-  h3 { font-size: 12pt; margin: 14px 0 6px; color: #333; }
-  .part { page-break-before: always; }
-  .part:first-of-type { page-break-before: auto; }
-  .slide {
-    page-break-inside: avoid;
-    border-left: 4px solid #7a2e3a;
-    padding: 10px 14px;
-    margin: 12px 0 16px;
-    background: #fcfbfa;
-  }
-  .slide-num { font-size: 9pt; font-weight: 700; color: #7a2e3a; text-transform: uppercase; letter-spacing: 0.5px; }
-  .slide h4 { margin: 4px 0 8px; font-size: 14pt; }
-  table { width: 100%; border-collapse: collapse; margin: 8px 0; font-size: 10pt; }
-  th, td { border: 1px solid #ccc; padding: 5px 8px; vertical-align: top; text-align: left; }
-  th { background: #f3f3f3; font-weight: 600; }
-  ul { margin: 6px 0; padding-left: 18px; }
-  li { margin: 0 0 4px; }
-  .stats { display: flex; gap: 10px; margin: 10px 0; }
-  .stat {
+
+  /* —— Solution cards —— */
+  .triad { display: flex; gap: 10px; margin: 12px 0; }
+  .triad-card {
     flex: 1;
-    text-align: center;
-    background: #faf6ef;
-    border: 1px solid #e8dcc8;
-    padding: 10px 8px;
-    border-radius: 6px;
+    border-radius: 12px;
+    padding: 12px;
+    font-size: 9pt;
+    border: 1px solid #e7e5e4;
   }
-  .stat b { display: block; font-size: 22pt; color: #7a2e3a; line-height: 1; }
-  .stat span { font-size: 9pt; display: block; margin-top: 4px; }
-  .toc li { margin: 6px 0; }
-  .link-box {
+  .triad-card.build { background: #ecfdf5; border-color: #6ee7b7; }
+  .triad-card.later { background: #f5f5f4; }
+  .triad-card.out { background: #fef2f2; border-color: #fecaca; opacity: 0.85; }
+  .triad-card b { display: block; font-size: 10pt; margin-bottom: 6px; }
+
+  .link-panel {
     background: #f5f8fc;
-    border: 1px solid #c5d4e8;
-    padding: 10px 12px;
-    margin: 10px 0;
-    font-size: 10pt;
-    border-radius: 4px;
+    border: 1px solid #bfdbfe;
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-top: 16px;
+    font-size: 9.5pt;
   }
-  .footer-note { font-size: 9pt; color: #666; margin-top: 20px; border-top: 1px solid #ddd; padding-top: 8px; }
-  .flow { counter-reset: step; list-style: none; padding: 0; }
-  .flow li { counter-increment: step; margin: 0 0 6px; padding-left: 28px; position: relative; }
-  .flow li::before {
-    content: counter(step);
-    position: absolute; left: 0; top: 0;
-    width: 20px; height: 20px; line-height: 20px; text-align: center;
-    background: #7a2e3a; color: #fff; font-size: 9pt; border-radius: 50%;
+  .link-panel a { display: block; margin: 4px 0; }
+  .footer {
+    margin-top: auto;
+    padding-top: 12px;
+    font-size: 8.5pt;
+    color: #78716c;
+    border-top: 1px solid #e7e5e4;
   }
+  ul.compact { margin: 8px 0; padding-left: 18px; }
+  ul.compact li { margin: 0 0 5px; }
+  .two-col { display: flex; gap: 16px; }
+  .two-col > div { flex: 1; }
+  .illus-row { display: flex; align-items: center; gap: 16px; margin: 12px 0; }
+  .illus-row svg { flex-shrink: 0; }
 </style>
 </head>
 <body>
 
-<!-- COVER -->
-<div class="cover">
-  <p class="tag">Product management case study</p>
-  <h1>ChatGPT Voice Adoption<br/>Among Indian Users</h1>
-  <p class="sub">From market landscape to user research, problem framing, and a shippable solution — <strong>Voice Draft Mode</strong></p>
-  <p class="meta"><strong>Author:</strong> Arushi Srivastava<br/>
-  <strong>Repository:</strong> <a href="https://github.com/iArushi/ChatGPT-voice-model-adaption-amongst-Indian-Audience">github.com/iArushi/ChatGPT-voice-model-adaption-amongst-Indian-Audience</a><br/>
-  <strong>Interactive prototype:</strong> <a href="https://steel-main-21529943.figma.site">steel-main-21529943.figma.site</a></p>
-  <p style="margin-top:28px"><span class="tag">Market research</span><span class="tag">Survey &amp; interviews</span><span class="tag">Problem framing</span><span class="tag">Prioritisation</span><span class="tag">Metrics &amp; growth</span><span class="tag">Prototype</span></p>
-</div>
-
-<!-- TOC -->
-<div class="part">
-  <h2 class="section">Contents</h2>
-  <ol class="toc">
-    <li><strong>Executive summary</strong></li>
-    <li><strong>Milestone 1</strong> — Market research &amp; competitive UX</li>
-    <li><strong>Milestone 2</strong> — User research &amp; problem framing (3 slides)</li>
-    <li><strong>Milestone 3</strong> — Solution, metrics, growth (Voice Draft Mode)</li>
-    <li><strong>Appendix</strong> — Repository links &amp; deliverables index</li>
-  </ol>
-  <div class="link-box">
-    <strong>Quick links (this case study is also in the repo):</strong><br/>
-    Full PDF: <a href="https://github.com/iArushi/ChatGPT-voice-model-adaption-amongst-Indian-Audience/blob/main/Case_Study_ChatGPT_Voice_India.pdf">Case_Study_ChatGPT_Voice_India.pdf</a>
+<!-- PAGE 1 — COVER -->
+<div class="page cover">
+  <div class="cover-top">
+    <span class="pill">Product case study</span>
+    <svg width="72" height="72" viewBox="0 0 72 72" fill="none" aria-hidden="true">
+      <circle cx="36" cy="36" r="34" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
+      <path d="M36 18v22M28 32c0-4.4 3.6-8 8-8s8 3.6 8 8v6H28v-6z" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M24 44h24v8a4 4 0 01-4 4H28a4 4 0 01-4-4v-8z" fill="rgba(255,255,255,0.2)" stroke="#fff" stroke-width="2"/>
+    </svg>
+  </div>
+  <div>
+    <h1>Why India uses voice everywhere except ChatGPT mobile</h1>
+    <p class="lead">A PM case study: market research → user research → <strong>Voice Draft Mode</strong> — speak, review, then send.</p>
+    <div class="tag-row">
+      <span class="tag">User research</span>
+      <span class="tag">Problem framing</span>
+      <span class="tag">Prioritisation</span>
+      <span class="tag">Metrics</span>
+      <span class="tag">Prototype</span>
+    </div>
+  </div>
+  <svg class="cover-illus" width="280" height="280" viewBox="0 0 280 280" aria-hidden="true">
+    <circle cx="140" cy="140" r="120" fill="none" stroke="#fff" stroke-width="1" opacity="0.2"/>
+    <circle cx="140" cy="140" r="80" fill="none" stroke="#fff" stroke-width="1" opacity="0.15"/>
+    <path d="M60 180 Q140 80 220 180" stroke="#fcd34d" stroke-width="3" fill="none" opacity="0.5"/>
+  </svg>
+  <div class="cover-bottom">
+    <strong>Arushi Srivastava</strong>
+    Product · Bengaluru<br/>
+    Repo: github.com/iArushi/ChatGPT-voice-model-adaption-amongst-Indian-Audience<br/>
+    Prototype: steel-main-21529943.figma.site
   </div>
 </div>
 
-<!-- EXEC SUMMARY -->
-<div class="part">
-  <h2 class="section">1. Executive summary</h2>
-  <p>Indians already use voice in <strong>WhatsApp</strong>, <strong>Google Assistant</strong>, and voice search. On <strong>ChatGPT mobile</strong>, the blocker for working professionals is not “where is the mic?” — most have tried voice. The blocker is <strong>control</strong>: the transcript can feel committed before they read and fix it.</p>
-  <p><strong>Focus segment:</strong> working professionals in India on ChatGPT mobile (daily use, high-stakes work prompts, subscription upside).</p>
-  <p><strong>Research signal (directional, n=10 in segment):</strong> 70% say typing feels safer; 50% want check-and-fix before send; 80% use voice on WhatsApp; none rated ChatGPT voice above Google/Gemini.</p>
-  <p><strong>Solution chosen:</strong> <strong>Voice Draft Mode</strong> — speech lands in an editable draft; nothing sends until the user taps Send. Prototype: <a href="https://steel-main-21529943.figma.site">Figma Make site</a>.</p>
-  <p><strong>North-star metric:</strong> voice prompt completion rate (mic session → Send), with edit rate and 7-day repeat as supporting metrics.</p>
+<!-- PAGE 2 — STORY + JOURNEY -->
+<div class="page">
+  <div class="section-bar">
+    <span class="section-num">01</span>
+    <div>
+      <h2>The story in one minute</h2>
+      <p>Executive summary</p>
+    </div>
+  </div>
+
+  <div class="journey">
+    <div class="journey-step">M1 · Market<div>Landscape &amp; UX</div></div>
+    <div class="journey-step">M2 · Research<div>Survey &amp; interviews</div></div>
+    <div class="journey-step">M2 · Frame<div>Problem canvas</div></div>
+    <div class="journey-step">M3 · Build<div>Voice Draft Mode</div></div>
+  </div>
+
+  <div class="callout">
+    Indians already trust voice on <em>WhatsApp</em> and <em>Google</em>. On ChatGPT mobile, the gap is not “find the mic” — it is <em>control</em>: the transcript can commit before they read and fix it.
+  </div>
+
+  <div class="two-col">
+    <div>
+      <h3 style="font-family:Fraunces,serif;color:#7a2e3a;margin:0 0 8px;">Focus segment</h3>
+      <p style="margin:0">Working professionals in India on ChatGPT mobile — daily use, high-stakes prompts, subscription upside.</p>
+    </div>
+    <div>
+      <h3 style="font-family:Fraunces,serif;color:#7a2e3a;margin:0 0 8px;">Solution</h3>
+      <p style="margin:0"><strong>Voice Draft Mode</strong> — speech stays in an editable draft until the user taps Send.</p>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat-card">
+      <div class="icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h10M4 17h14" stroke="#7a2e3a" stroke-width="2" stroke-linecap="round"/></svg></div>
+      <b>70%</b><span>Typing feels safer than voice</span>
+    </div>
+    <div class="stat-card">
+      <div class="icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M9 11l3 3 8-8" stroke="#7a2e3a" stroke-width="2" stroke-linecap="round"/></svg></div>
+      <b>50%</b><span>Want check-and-fix before send</span>
+    </div>
+    <div class="stat-card">
+      <div class="icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#7a2e3a" stroke-width="2"/><path d="M8 12h8" stroke="#7a2e3a" stroke-width="2"/></svg></div>
+      <b>80%</b><span>Use voice on WhatsApp</span>
+    </div>
+  </div>
+  <p style="font-size:9pt;color:#78716c;">Directional sample: n=10 working professionals (16 survey total). North star: voice prompt completion (mic → Send).</p>
+
+  <div class="footer">Case study · ChatGPT voice in India · Page 2</div>
 </div>
 
-<!-- MILESTONE 1 -->
-<div class="part">
-  <h2 class="section">2. Milestone 1 — Market research</h2>
-  <p>Full presentation: <a href="https://github.com/iArushi/ChatGPT-voice-model-adaption-amongst-Indian-Audience/blob/main/ChatGPT%20Voice%20Adaption%20amongst%20Indian%20Audience.pdf">ChatGPT Voice Adaption amongst Indian Audience.pdf</a></p>
+<!-- PAGE 3 — MILESTONE 1 -->
+<div class="page">
+  <div class="section-bar">
+    <span class="section-num">02</span>
+    <div>
+      <h2>Market research</h2>
+      <p>Milestone 1 — India voice landscape</p>
+    </div>
+  </div>
 
-  <h3>Landscape (India)</h3>
-  <ul>
-    <li>Mobile-first internet; voice is a normal input channel.</li>
-    <li>English often used for work; Hindi/regional for social — recognition matters long-term, but voice habit already exists elsewhere.</li>
-    <li>ChatGPT mobile competes with <strong>Gemini Live</strong> on conversational feel.</li>
-  </ul>
+  <div class="illus-row">
+    <svg width="100" height="80" viewBox="0 0 100 80" aria-hidden="true">
+      <rect x="5" y="10" width="90" height="55" rx="8" fill="#faf6ef" stroke="#e8dcc8"/>
+      <rect x="15" y="22" width="50" height="6" rx="3" fill="#7a2e3a" opacity="0.3"/>
+      <rect x="15" y="34" width="70" height="6" rx="3" fill="#7a2e3a" opacity="0.2"/>
+      <circle cx="78" cy="48" r="14" fill="#7a2e3a" opacity="0.15"/>
+      <path d="M74 48h8M78 44v8" stroke="#7a2e3a" stroke-width="2"/>
+    </svg>
+    <div>
+      <p style="margin:0"><strong>Mobile-first India</strong> already uses voice for search, assistants, and WhatsApp notes. ChatGPT competes with <strong>Gemini Live</strong> on conversational feel — but long <em>prompts</em> need a different UX than short commands.</p>
+    </div>
+  </div>
 
-  <h3>Initial segments</h3>
-  <ol>
-    <li>Non-English / vernacular-first users</li>
-    <li>Tier-2 &amp; Tier-3 mobile-first users</li>
-    <li>WhatsApp voice-note natives</li>
-    <li>Students &amp; young learners</li>
-    <li>Metro English-first professionals → deep dive in Milestone 2</li>
-  </ol>
-
-  <h3>Competitive UX patterns</h3>
   <table>
-    <tr><th>Product</th><th>Pattern</th></tr>
+    <tr><th>Product</th><th>Voice pattern</th></tr>
     <tr><td>WhatsApp</td><td>Record → <strong>listen</strong> → send or re-record</td></tr>
     <tr><td>Gemini Live</td><td><strong>Interrupt</strong> and correct mid-stream</td></tr>
-    <tr><td>Google Assistant</td><td>Short commands; less long-form prompting</td></tr>
+    <tr><td>Google Assistant</td><td>Short commands</td></tr>
     <tr><td>ChatGPT mobile</td><td>Mic → transcript → <strong>feels immediate</strong></td></tr>
   </table>
 
-  <h3>Metrics explored</h3>
-  <p>Weekly Successful Voice Users (WSVU), discovery rate, voice start rate, task success, repeat usage.</p>
-  <p class="footer-note">Sources (public): Reuters, DataReportal, Google for India, Google–KPMG Indian Languages, IAMAI–Kantar, ASER, OpenAI Help Center, Exchange4Media — see Milestone 1 PDF for citations.</p>
+  <p><strong>Segments explored:</strong> vernacular-first · tier-2/3 mobile · WhatsApp natives · students · <strong>metro professionals → Milestone 2 deep dive</strong></p>
+  <p class="link-panel" style="margin-top:20px"><strong>Full deck:</strong> <a href="https://github.com/iArushi/ChatGPT-voice-model-adaption-amongst-Indian-Audience/blob/main/ChatGPT%20Voice%20Adaption%20amongst%20Indian%20Audience.pdf">Market research PDF (GitHub)</a></p>
+  <div class="footer">Case study · ChatGPT voice in India · Page 3</div>
 </div>
 
-<!-- MILESTONE 2 SLIDES -->
-<div class="part">
-  <h2 class="section">3. Milestone 2 — User research &amp; problem framing</h2>
-  <p>Standalone deck PDF: <a href="https://github.com/iArushi/ChatGPT-voice-model-adaption-amongst-Indian-Audience/blob/main/Milestone2_User_Research_Deck.pdf">Milestone2_User_Research_Deck.pdf</a></p>
-
-  <div class="slide">
-    <p class="slide-num">Slide 1</p>
-    <h4>Chosen segment — working professionals (ChatGPT mobile, India)</h4>
-    <table>
-      <tr><th>Segment</th><th>Why not lead</th></tr>
-      <tr><td>Students</td><td>Lower WTP; mixed language on first trust</td></tr>
-      <tr><td>Job seekers</td><td>Spiky usage</td></tr>
-      <tr><td>Content creators</td><td>Smaller mobile DAU share</td></tr>
-      <tr><td>Regional-language-first</td><td>ASR investment; not 2-week fix</td></tr>
-      <tr><td><strong>Working professionals ✓</strong></td><td>Daily use, work stakes, Plus fit</td></tr>
-    </table>
-    <p><strong>Impact:</strong> High-stakes prompts; if voice is safe, session length and repeat use move for a high-LTV cohort.</p>
-  </div>
-
-  <div class="slide">
-    <p class="slide-num">Slide 2</p>
-    <h4>Insights — quantitative &amp; qualitative</h4>
-    <p><strong>Methods:</strong> Survey n=16 (10 in segment); 3 follow-up interviews + open-text; target 30+ for production validation.</p>
-    <div class="stats">
-      <div class="stat"><b>70%</b><span>Typing feels safer</span></div>
-      <div class="stat"><b>50%</b><span>Check-and-fix would help</span></div>
-      <div class="stat"><b>80%</b><span>Voice on WhatsApp</span></div>
+<!-- PAGE 4 — M2 SLIDE 1 & 2 -->
+<div class="page">
+  <div class="section-bar">
+    <span class="section-num">03</span>
+    <div>
+      <h2>User research</h2>
+      <p>Milestone 2 — slides 1 &amp; 2</p>
     </div>
-    <p><strong>Hypotheses tested:</strong> Discoverability (weak) · Control (strong) · Accent (mixed) · Privacy (moderate) · Habit (strong).</p>
-    <ul>
-      <li>Commit anxiety — wrong word becomes the prompt before fix.</li>
-      <li>WhatsApp mental model: listen before send; ChatGPT feels send-first.</li>
-      <li>Gemini: interrupt mid-sentence; ChatGPT composer feels one-shot.</li>
-    </ul>
-    <p>Detail: <a href="https://github.com/iArushi/ChatGPT-voice-model-adaption-amongst-Indian-Audience/blob/main/docs/survey-and-interviews.md">docs/survey-and-interviews.md</a></p>
   </div>
 
-  <div class="slide">
-    <p class="slide-num">Slide 3</p>
-    <h4>Problem Framing Canvas</h4>
-    <table>
-      <tr><th>Field</th><th>Answer</th></tr>
-      <tr><td>User / context</td><td>Working professional, mobile, commute / between meetings</td></tr>
-      <tr><td>Current behaviour</td><td>Types important prompts; tried voice, reverted</td></tr>
-      <tr><td>Desired behaviour</td><td>Speak when busy — if as safe as typing</td></tr>
-      <tr><td>Barrier</td><td>Cannot verify/fix transcript before it becomes the prompt</td></tr>
-      <tr><td>Competitive reference</td><td>WhatsApp review; Gemini interrupt</td></tr>
-      <tr><td>Problem statement</td><td>Voice underused <strong>not</strong> because hidden — because first transcript is not trusted</td></tr>
-      <tr><td>Direction</td><td><strong>Voice Draft Mode</strong></td></tr>
-    </table>
-    <p>Full canvas: <a href="https://github.com/iArushi/ChatGPT-voice-model-adaption-amongst-Indian-Audience/blob/main/docs/problem-framing-canvas.md">docs/problem-framing-canvas.md</a></p>
+  <div class="slide-card">
+    <div class="slide-head">Slide 1 · Segment choice</div>
+    <div class="slide-body">
+      <h4>Working professionals (ChatGPT mobile, India)</h4>
+      <table>
+        <tr><th>Segment</th><th>Why not lead</th></tr>
+        <tr><td>Students / job seekers / creators</td><td>Lower WTP or spiky use</td></tr>
+        <tr><td>Regional-language-first</td><td>Needs ASR investment</td></tr>
+        <tr><td><strong>Professionals ✓</strong></td><td>Daily use · work stakes · Plus fit</td></tr>
+      </table>
+    </div>
   </div>
+
+  <div class="slide-card">
+    <div class="slide-head">Slide 2 · Quant + qual insights</div>
+    <div class="slide-body">
+      <p style="margin:0 0 10px;font-size:9.5pt">Survey n=16 (10 in segment) · 3 follow-up interviews · hypotheses: control ✓ · discoverability ✗</p>
+      <ul class="compact">
+        <li><strong>Commit anxiety</strong> — “role” vs “roll” before the model answers</li>
+        <li><strong>WhatsApp model</strong> — listen before send; ChatGPT feels send-first</li>
+        <li><strong>Gemini</strong> — interrupt mid-sentence; composer feels one-shot</li>
+      </ul>
+    </div>
+  </div>
+  <p class="link-panel"><a href="https://github.com/iArushi/ChatGPT-voice-model-adaption-amongst-Indian-Audience/blob/main/Milestone2_User_Research_Deck.pdf">Milestone 2 deck PDF</a></p>
+  <div class="footer">Case study · ChatGPT voice in India · Page 4</div>
 </div>
 
-<!-- MILESTONE 3 -->
-<div class="part">
-  <h2 class="section">4. Milestone 3 — Prioritisation, metrics &amp; growth</h2>
-  <p>Standalone 3-pager PDF: <a href="https://github.com/iArushi/ChatGPT-voice-model-adaption-amongst-Indian-Audience/blob/main/Milestone3_VoiceDraftMode_3Pager.pdf">Milestone3_VoiceDraftMode_3Pager.pdf</a></p>
+<!-- PAGE 5 — PROBLEM CANVAS -->
+<div class="page">
+  <div class="section-bar">
+    <span class="section-num">04</span>
+    <div>
+      <h2>Problem framing</h2>
+      <p>Milestone 2 — slide 3 · canvas</p>
+    </div>
+  </div>
 
-  <h3>Three directions &amp; trade-offs</h3>
-  <table>
-    <tr><th>Direction</th><th>Impact</th><th>Effort (2 wk)</th><th>Decision</th></tr>
-    <tr><td><strong>A. Voice Draft Mode</strong></td><td>High — adds review</td><td>Medium</td><td><strong>Build</strong></td></tr>
-    <tr><td>B. Auto-organize / STAR guide</td><td>Medium</td><td>Medium–high</td><td>Later</td></tr>
-    <tr><td>C. Recognition / Hinglish</td><td>High long-term</td><td>Very high</td><td>Out</td></tr>
-  </table>
+  <div class="slide-card">
+    <div class="slide-head">Slide 3 · Problem Framing Canvas</div>
+    <div class="slide-body">
+      <table>
+        <tr><th>Field</th><th>Answer</th></tr>
+        <tr><td>Barrier</td><td>Cannot verify/fix transcript before it becomes the prompt</td></tr>
+        <tr><td>Problem</td><td>Voice underused <strong>not</strong> because hidden — because first transcript is not trusted</td></tr>
+        <tr><td>Competitive refs</td><td>WhatsApp review · Gemini interrupt</td></tr>
+        <tr><td>Direction</td><td><strong>Voice Draft Mode</strong></td></tr>
+        <tr><td>Leading metric</td><td>Draft-to-send rate (mic → Send after edit)</td></tr>
+      </table>
+    </div>
+  </div>
 
-  <h3>User flow</h3>
-  <ol class="flow">
-    <li>Mic visible in composer.</li>
-    <li>Tap mic → speak → stop.</li>
-    <li>Transcript in <strong>dashed draft</strong> (not sent).</li>
-    <li>Tap word to edit; optional low-confidence underline.</li>
-    <li>User taps <strong>Send</strong> → message enters thread.</li>
-    <li>Discard returns to keyboard without sending.</li>
-  </ol>
+  <div class="callout" style="background:linear-gradient(135deg,#7a2e3a,#3d1520);">
+    Insight: Voice loses to typing because typing lets you edit <em>while</em> you compose. ChatGPT mobile needs an equivalent pause.
+  </div>
 
-  <h3>Success metrics</h3>
+  <div class="footer">Case study · ChatGPT voice in India · Page 5</div>
+</div>
+
+<!-- PAGE 6 — M3 SOLUTION -->
+<div class="page">
+  <div class="section-bar">
+    <span class="section-num">05</span>
+    <div>
+      <h2>Solution &amp; prioritisation</h2>
+      <p>Milestone 3 — Voice Draft Mode</p>
+    </div>
+  </div>
+
+  <div class="triad">
+    <div class="triad-card build"><b>✓ Build</b>Voice Draft Mode — editable draft, explicit Send</div>
+    <div class="triad-card later"><b>Later</b>Auto-organize / STAR guide</div>
+    <div class="triad-card out"><b>Out (2 wk)</b>Recognition / Hinglish rebuild</div>
+  </div>
+
+  <h3 style="font-family:Fraunces,serif;color:#3d1520;margin:16px 0 8px;">User flow</h3>
+  <div class="flow">
+    <div class="flow-step"><div class="n">1</div>Mic visible in composer</div>
+    <div class="flow-step"><div class="n">2</div>Speak → stop</div>
+    <div class="flow-step"><div class="n">3</div>Draft box (not sent)</div>
+    <div class="flow-step"><div class="n">4</div>Tap word to edit</div>
+    <div class="flow-step"><div class="n">5</div>User taps Send</div>
+    <div class="flow-step"><div class="n">6</div>Model responds</div>
+  </div>
+
   <table>
     <tr><th>Metric</th><th>Role</th></tr>
-    <tr><td><strong>Voice prompt completion rate</strong></td><td>North star (mic → Send)</td></tr>
-    <tr><td>Draft-to-send rate</td><td>Review step completes</td></tr>
-    <tr><td>Edit rate on drafts</td><td>Proves review is used</td></tr>
-    <tr><td>7-day repeat voice use</td><td>Habit</td></tr>
-    <tr><td>Typing share on 50+ char prompts</td><td>Guardrail</td></tr>
+    <tr><td><strong>Voice prompt completion</strong></td><td>North star</td></tr>
+    <tr><td>Edit rate on drafts</td><td>Proves review</td></tr>
+    <tr><td>7-day repeat voice</td><td>Habit</td></tr>
   </table>
 
-  <h3>Launch &amp; growth</h3>
-  <ul>
-    <li><strong>Experiment:</strong> 50/50 mobile, India + English, 2 weeks.</li>
-    <li><strong>Kill rule:</strong> draft-to-send below control and edit rate &lt; 15% → stop.</li>
-    <li><strong>Growth:</strong> persistent mic; one first-run line; no badge spam; measure repeat not taps alone.</li>
-  </ul>
-
-  <h3>Non-goals (V1)</h3>
-  <p>Advanced Voice Mode · new ASR programme · desktop/web · push-only “try voice” · auto-structure (phase 2 in prototype, labeled).</p>
-
-  <div class="link-box">
-    <strong>Prototype (tap through states):</strong><br/>
-    <a href="https://steel-main-21529943.figma.site">https://steel-main-21529943.figma.site</a><br/>
-    HTML demo in repo: <a href="https://github.com/iArushi/ChatGPT-voice-model-adaption-amongst-Indian-Audience/blob/main/Voice_Draft_Mode_Prototype.html">Voice_Draft_Mode_Prototype.html</a>
-  </div>
+  <div class="footer">Case study · ChatGPT voice in India · Page 6</div>
 </div>
 
-<!-- APPENDIX -->
-<div class="part">
-  <h2 class="section">5. Appendix — Repository index</h2>
-  <p><strong>Main repo:</strong> <a href="https://github.com/iArushi/ChatGPT-voice-model-adaption-amongst-Indian-Audience">https://github.com/iArushi/ChatGPT-voice-model-adaption-amongst-Indian-Audience</a></p>
+<!-- PAGE 7 — PROTOTYPE + LINKS -->
+<div class="page">
+  <div class="section-bar">
+    <span class="section-num">06</span>
+    <div>
+      <h2>Prototype &amp; links</h2>
+      <p>Try it · read the repo</p>
+    </div>
+  </div>
 
-  <table>
-    <tr><th>Deliverable</th><th>Link</th></tr>
-    <tr><td>This case study (PDF)</td><td><a href="https://github.com/iArushi/ChatGPT-voice-model-adaption-amongst-Indian-Audience/blob/main/Case_Study_ChatGPT_Voice_India.pdf">Case_Study_ChatGPT_Voice_India.pdf</a></td></tr>
-    <tr><td>README / map</td><td><a href="https://github.com/iArushi/ChatGPT-voice-model-adaption-amongst-Indian-Audience/blob/main/README.md">README.md</a></td></tr>
-    <tr><td>Milestone 1 — market PDF</td><td><a href="https://github.com/iArushi/ChatGPT-voice-model-adaption-amongst-Indian-Audience/blob/main/ChatGPT%20Voice%20Adaption%20amongst%20Indian%20Audience.pdf">Market research PDF</a></td></tr>
-    <tr><td>Milestone 2 — deck PDF</td><td><a href="https://github.com/iArushi/ChatGPT-voice-model-adaption-amongst-Indian-Audience/blob/main/Milestone2_User_Research_Deck.pdf">Milestone2_User_Research_Deck.pdf</a></td></tr>
-    <tr><td>Milestone 3 — 3-pager PDF</td><td><a href="https://github.com/iArushi/ChatGPT-voice-model-adaption-amongst-Indian-Audience/blob/main/Milestone3_VoiceDraftMode_3Pager.pdf">Milestone3_VoiceDraftMode_3Pager.pdf</a></td></tr>
-    <tr><td>Figma Make prototype</td><td><a href="https://steel-main-21529943.figma.site">steel-main-21529943.figma.site</a></td></tr>
-    <tr><td>HTML prototype</td><td><a href="https://github.com/iArushi/ChatGPT-voice-model-adaption-amongst-Indian-Audience/blob/main/Voice_Draft_Mode_Prototype.html">Voice_Draft_Mode_Prototype.html</a></td></tr>
-    <tr><td>Prototype zip</td><td><a href="https://github.com/iArushi/ChatGPT-voice-model-adaption-amongst-Indian-Audience/blob/main/ChatGPT-VoiceDraftPrototype.zip">ChatGPT-VoiceDraftPrototype.zip</a></td></tr>
-    <tr><td>Survey &amp; interviews (source)</td><td><a href="https://github.com/iArushi/ChatGPT-voice-model-adaption-amongst-Indian-Audience/blob/main/docs/survey-and-interviews.md">docs/survey-and-interviews.md</a></td></tr>
-    <tr><td>Milestone 3 (source)</td><td><a href="https://github.com/iArushi/ChatGPT-voice-model-adaption-amongst-Indian-Audience/blob/main/docs/milestone-3-voice-draft-mode-3pager.md">docs/milestone-3-voice-draft-mode-3pager.md</a></td></tr>
-  </table>
+  <div class="illus-row">
+    <svg width="120" height="140" viewBox="0 0 120 140" aria-hidden="true">
+      <rect x="20" y="5" width="80" height="130" rx="14" fill="#1c1b20"/>
+      <rect x="26" y="18" width="68" height="100" rx="4" fill="#fff"/>
+      <rect x="32" y="78" width="56" height="28" rx="6" fill="#fff8ea" stroke="#d98e04" stroke-width="2" stroke-dasharray="4 2"/>
+      <text x="60" y="96" text-anchor="middle" font-size="7" fill="#78716c">Draft</text>
+      <circle cx="88" cy="108" r="8" fill="#7a2e3a"/>
+    </svg>
+    <div>
+      <h3 style="font-family:Fraunces,serif;margin:0 0 8px;color:#7a2e3a;">Interactive prototype</h3>
+      <p style="margin:0 0 12px;font-size:11pt"><a href="https://steel-main-21529943.figma.site">steel-main-21529943.figma.site</a></p>
+      <p style="margin:0;font-size:9.5pt">Tap through: record → draft → fix word → send. Phase 2 “Structure” labeled, not in V1.</p>
+    </div>
+  </div>
 
-  <p class="footer-note">Arushi Srivastava · Case study compiled from repository deliverables · Prototype and research are independent PM coursework.</p>
+  <div class="link-panel">
+    <strong>Repository index</strong>
+    <a href="https://github.com/iArushi/ChatGPT-voice-model-adaption-amongst-Indian-Audience">github.com/iArushi/ChatGPT-voice-model-adaption-amongst-Indian-Audience</a>
+    <a href="https://github.com/iArushi/ChatGPT-voice-model-adaption-amongst-Indian-Audience/blob/main/Case_Study_ChatGPT_Voice_India.pdf">This case study PDF</a>
+    <a href="https://github.com/iArushi/ChatGPT-voice-model-adaption-amongst-Indian-Audience/blob/main/Milestone3_VoiceDraftMode_3Pager.pdf">Milestone 3 · 3-pager PDF</a>
+    <a href="https://github.com/iArushi/ChatGPT-voice-model-adaption-amongst-Indian-Audience/blob/main/Voice_Draft_Mode_Prototype.html">HTML prototype</a>
+  </div>
+
+  <div class="callout" style="margin-top:24px;text-align:center;font-size:12pt;">
+    <strong>LinkedIn-ready takeaway</strong><br/>
+    Fix trust before you fix the mic. <em>Voice Draft Mode</em> gives India’s power users the same pause WhatsApp already taught them.
+  </div>
+
+  <p style="margin-top:20px;font-size:10pt;text-align:center;color:#57534e;">
+    <strong>Arushi Srivastava</strong> · Product · Bengaluru<br/>
+    Independent PM case study · 2025–2026
+  </p>
+  <div class="footer">Case study · ChatGPT voice in India · Page 7</div>
 </div>
 
 </body>
