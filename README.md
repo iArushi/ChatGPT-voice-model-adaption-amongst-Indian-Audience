@@ -1,4 +1,5 @@
 # ChatGPT-voice-model-adaption-amongst-Indian-Audience
+Working Prototype of the solution I proposed: https://steel-main-21529943.figma.site
 
 # 🎙️ ChatGPT Voice Adoption Among Indian Audience – Market Research
 
