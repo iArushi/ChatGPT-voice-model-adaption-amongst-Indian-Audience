@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Milestone 2 — User research deck</title>
+<style>
+  @page { size: landscape; margin: 12mm; }
+  body { font-family: Arial, sans-serif; margin: 0; }
+  .slide { page-break-after: always; min-height: 180mm; padding: 8mm; box-sizing: border-box; }
+  .slide:last-child { page-break-after: auto; }
+  h1 { font-size: 28px; margin: 0 0 12px; color: #1a1a1a; }
+  h2 { font-size: 16px; margin: 16px 0 8px; color: #7a2e3a; }
+  p, li, td { font-size: 14px; line-height: 1.4; }
+  table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+  th, td { border: 1px solid #ccc; padding: 6px 8px; text-align: left; }
+  th { background: #f5f5f5; }
+  .stats { display: flex; gap: 12px; margin: 12px 0; }
+  .stat { flex: 1; background: #faf6ef; padding: 12px; border-radius: 6px; text-align: center; }
+  .stat b { font-size: 32px; display: block; color: #7a2e3a; }
+</style>
+</head>
+<body>
+
+<div class="slide">
+  <h1>Slide 1 — Chosen segment</h1>
+  <h2>Working professionals in India (ChatGPT mobile)</h2>
+  <table>
+    <tr><th>Segment</th><th>Why not lead</th></tr>
+    <tr><td>Students</td><td>Lower WTP; mixed language hurts first trust</td></tr>
+    <tr><td>Job seekers</td><td>Spiky use; voice nice-to-have</td></tr>
+    <tr><td>Content creators</td><td>Smaller mobile DAU share</td></tr>
+    <tr><td>Regional-language-first</td><td>Needs ASR investment</td></tr>
+    <tr><td><b>Working professionals ✓</b></td><td>Daily use, work stakes, subscription fit</td></tr>
+  </table>
+  <p><b>Highest impact:</b> High-stakes prompts; if voice is safe, repeat use and session length move for a high-LTV cohort.</p>
+</div>
+
+<div class="slide">
+  <h1>Slide 2 — Research insights</h1>
+  <p>Survey n=16 (10 in segment) · 3 follow-up interviews · Target 30+ for production validation</p>
+  <div class="stats">
+    <div class="stat"><b>70%</b>Typing safer</div>
+    <div class="stat"><b>50%</b>Check-and-fix helps</div>
+    <div class="stat"><b>80%</b>Voice on WhatsApp</div>
+  </div>
+  <h2>Blockers</h2>
+  <ul>
+    <li>Transcript feels committed before review</li>
+    <li>Keyboard = edit while composing; voice = gamble</li>
+    <li>WhatsApp: listen before send; Gemini: interrupt — ChatGPT feels one-shot</li>
+    <li>Open office → type; mic discoverability not the main issue</li>
+  </ul>
+</div>
+
+<div class="slide">
+  <h1>Slide 3 — Problem Framing Canvas</h1>
+  <table>
+    <tr><th>Field</th><th>Answer</th></tr>
+    <tr><td>User</td><td>Working professional, ChatGPT mobile, commute / between meetings</td></tr>
+    <tr><td>Current behaviour</td><td>Types important prompts; tried voice, reverted</td></tr>
+    <tr><td>Desired behaviour</td><td>Speak long prompts when hands busy — if as safe as typing</td></tr>
+    <tr><td>Barrier</td><td>Cannot verify/fix transcript before it becomes the prompt</td></tr>
+    <tr><td>Problem statement</td><td>Voice underused because users cannot trust the first transcript for work prompts</td></tr>
+    <tr><td>Direction</td><td>Voice Draft Mode — editable draft until explicit Send</td></tr>
+  </table>
+</div>
+
+</body>
+</html>

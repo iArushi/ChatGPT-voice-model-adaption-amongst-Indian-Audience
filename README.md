@@ -1,120 +1,48 @@
-# ChatGPT-voice-model-adaption-amongst-Indian-Audience
-Working Prototype of the solution I proposed: https://steel-main-21529943.figma.site
+# ChatGPT voice adoption among Indian audience
 
-# 🎙️ ChatGPT Voice Adoption Among Indian Audience – Market Research
+Product management case study: market research → user research & problem framing → solution (Voice Draft Mode).
 
-This repository contains the **Market Research** phase of a Product Management case study exploring voice technology adoption in India and its implications for ChatGPT Voice.
-
-The objective of this research is to understand the current voice ecosystem, identify promising user segments, and uncover insights that can inform future product decisions.
+**Working prototype:** [https://steel-main-21529943.figma.site](https://steel-main-21529943.figma.site)
 
 ---
 
-## 📌 Objective
+## Repository map
 
-To understand:
-
-- How Indians currently use voice technology
-- Which user segments demonstrate the highest voice adoption
-- Existing behaviors around voice interactions
-- UX patterns followed by popular voice-enabled products
-- Metrics that could later be used to evaluate voice adoption
-
----
-
-## 📂 Contents
-
-### 1. Market Landscape
-
-An overview of voice adoption in India using publicly available industry reports, covering:
-
-- Smartphone penetration
-- Voice technology adoption
-- Native language preferences
-- Growth of voice search
-- Mobile-first usage trends
+| Phase | Deliverable | File |
+|--------|-------------|------|
+| Milestone 1 | Market landscape, segments, competitive UX | [PDF](./ChatGPT%20Voice%20Adaption%20amongst%20Indian%20Audience.pdf) · [market research notes](./docs/milestone-1-market-research.md) |
+| Milestone 2 | Segment choice, survey, interviews, Problem Framing Canvas | [PDF](./Milestone2_User_Research_Deck.pdf) · [HTML](./Milestone2_User_Research_Deck.html) · [source](./docs/milestone-2-deck.md) |
+| Milestone 3 | 3 solution directions, chosen build, flow, metrics, growth | [PDF](./Milestone3_VoiceDraftMode_3Pager.pdf) · [HTML](./Milestone3_VoiceDraftMode_3Pager.html) · [source](./docs/milestone-3-voice-draft-mode-3pager.md) |
+| Build | HTML prototype + Figma Make export | [Voice_Draft_Mode_Prototype.html](./Voice_Draft_Mode_Prototype.html) · [zip](./ChatGPT-VoiceDraftPrototype.zip) |
 
 ---
 
-### 2. User Segmentation
+## One-line story
 
-Research identifying potential user groups based on existing voice behaviors, including:
-
-- Non-English / vernacular users
-- Tier-2 & Tier-3 mobile-first users
-- WhatsApp voice-note users
-- Students and young learners
-- Metro English-first professionals
+Indians already use voice elsewhere (WhatsApp, Google). On **ChatGPT mobile**, the gap is not discovery—it is **control**: the transcript can commit before the user has read or fixed it. **Voice Draft Mode** keeps speech in an editable draft until the user taps Send.
 
 ---
 
-### 3. UX & Competitive Research
+## Milestone 2 (summary)
 
-Analysis of how current voice-enabled products introduce and support voice interactions.
-
-Products referenced include:
-
-- ChatGPT
-- Gemini Live
-- Google Assistant
-- WhatsApp Voice Notes
-
-The research focuses on aspects such as:
-
-- Voice discoverability
-- Transcript visibility
-- Error recovery
-- User confidence during voice interactions
+- **Segments considered:** students, job seekers, content creators, regional-language-first users, metro working professionals.
+- **Focus segment:** **Working professionals in India** on ChatGPT mobile (high activity, work prompts, highest revenue upside).
+- **Survey:** 16 responses; **10** from the focus segment ([questions](./docs/survey-and-interviews.md)).
+- **Interviews:** 6 depth conversations with the same segment ([themes](./docs/survey-and-interviews.md#qualitative-interviews-n6)).
+- **Problem Framing Canvas:** [docs/problem-framing-canvas.md](./docs/problem-framing-canvas.md)
+- **Deck:** [docs/milestone-2-deck.md](./docs/milestone-2-deck.md) (copy into Slides for submission)
 
 ---
 
-### 4. Product Metrics Exploration
+## Milestone 3 (summary)
 
-An initial exploration of metrics that could later be used to measure successful voice adoption, including:
-
-- Weekly Successful Voice Users (WSVU)
-- Discovery Rate
-- Voice Start Rate
-- Voice Task Success Rate
-- Repeat Usage
-
-This section serves as a research direction rather than a finalized product strategy.
+- **Three directions:** Voice Draft Mode (build) · Auto-organize / STAR guide (later) · Recognition & regional languages (out for this scope).
+- **Choice:** Voice Draft Mode—highest impact on the control barrier, lowest engineering risk in a 2-week window, aligned with 50% of survey + interview signal.
+- **Full write-up:** [docs/milestone-3-voice-draft-mode-3pager.md](./docs/milestone-3-voice-draft-mode-3pager.md)
+- **Prototype:** [Figma site](https://steel-main-21529943.figma.site)
 
 ---
 
-## 📊 Research Sources
+## Author
 
-The findings are based on publicly available reports and documentation, including:
-
-- Reuters
-- DataReportal
-- Google for India
-- Google–KPMG Indian Languages Report
-- IAMAI–Kantar
-- ASER
-- OpenAI Help Center
-- Google Assistant Documentation
-- Exchange4Media
-
----
-
-## 🛠 Skills Demonstrated
-
-- Market Research
-- User Segmentation
-- Secondary Research
-- Competitive Analysis
-- Product Discovery
-- UX Analysis
-- Product Metrics Research
-
----
-
-## 📄 Repository Contents
-
-- Market Research Presentation (PDF)
-
----
-
-## Note
-
-This repository documents the **research and discovery phase** of the case study. It does not include proposed product solutions or implementation recommendations.
+Arushi Srivastava · [GitHub](https://github.com/iArushi)

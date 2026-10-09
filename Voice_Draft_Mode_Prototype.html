@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Voice Draft Mode — Prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f4f3ef;
+    --phone-bg: #ffffff;
+    --assistant-bubble: #efebe4;
+    --sent-bubble: #7a2e3a;
+    --sent-text: #ffffff;
+    --draft-border: #d98e04;
+    --draft-bg: #fff8ea;
+    --ink: #1c1a17;
+    --mute: #837d72;
+    --line: #e5e1d8;
+    --rec: #c0392b;
+    --phase2: #5b6b4f;
+    --phase2-bg: #edf0e6;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 28px 12px 60px;
+    color: var(--ink);
+  }
+  .intro {
+    max-width: 420px;
+    text-align: center;
+    margin-bottom: 18px;
+  }
+  .intro h1 { font-family: "Fraunces", Georgia, serif; font-weight: 700; font-size: 19px; margin: 0 0 4px; }
+  .intro p { font-size: 12.5px; color: var(--mute); margin: 0; line-height: 1.45; }
+  .badge {
+    font-family: "Fraunces", Georgia, serif;
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: var(--phase2);
+    background: var(--phase2-bg);
+    border-radius: 20px;
+    padding: 3px 10px;
+    margin-bottom: 10px;
+  }
+
+  .phone {
+    width: 375px;
+    max-width: 94vw;
+    height: 720px;
+    background: var(--phone-bg);
+    border-radius: 34px;
+    box-shadow: 0 20px 50px rgba(20,15,40,0.18);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: 8px solid #1c1b20;
+    position: relative;
+  }
+  .statusbar {
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--ink);
+    flex-shrink: 0;
+  }
+  .topbar {
+    padding: 6px 16px 10px;
+    font-weight: 700;
+    font-size: 15px;
+    border-bottom: 1px solid var(--line);
+    flex-shrink: 0;
+  }
+  .chat {
+    flex: 1;
+    overflow-y: auto;
+    padding: 14px 14px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .msg { max-width: 82%; padding: 10px 13px; border-radius: 16px; font-size: 13.5px; line-height: 1.4; }
+  .msg.assistant { background: var(--assistant-bubble); align-self: flex-start; border-bottom-left-radius: 4px; }
+  .msg.user { background: var(--sent-bubble); color: var(--sent-text); align-self: flex-end; border-bottom-right-radius: 4px; }
+  .msg.typing { display: flex; gap: 4px; align-items: center; }
+  .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--mute); animation: blink 1.2s infinite; }
+  .dot:nth-child(2){ animation-delay: 0.2s; } .dot:nth-child(3){ animation-delay: 0.4s; }
+  @keyframes blink { 0%,80%,100%{opacity:.25} 40%{opacity:1} }
+
+  .inputzone { border-top: 1px solid var(--line); padding: 10px 12px 16px; flex-shrink: 0; background: #fff; }
+
+  /* idle input row */
+  .row { display: flex; align-items: center; gap: 8px; }
+  .textfield {
+    flex: 1;
+    background: #f2f1f4;
+    border-radius: 22px;
+    padding: 10px 14px;
+    font-size: 13.5px;
+    color: var(--mute);
+  }
+  .iconbtn {
+    width: 38px; height: 38px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    background: #f2f1f4; flex-shrink: 0; cursor: pointer; border: none;
+    transition: transform .15s ease;
+  }
+  .iconbtn:active { transform: scale(0.92); }
+  .iconbtn.mic { background: var(--sent-bubble); }
+  .iconbtn.mic svg { fill: #fff; }
+  .iconbtn svg { width: 18px; height: 18px; fill: var(--ink); }
+
+  /* recording state */
+  .recording-row { display: none; align-items: center; gap: 10px; }
+  .recording-row.active { display: flex; }
+  .wave { flex: 1; display: flex; align-items: center; gap: 3px; height: 30px; padding-left: 4px; }
+  .wave span { width: 3px; background: var(--rec); border-radius: 2px; animation: wavey 1s infinite ease-in-out; }
+  .wave span:nth-child(odd){ animation-delay: .15s; }
+  .wave span:nth-child(3n){ animation-delay: .3s; }
+  @keyframes wavey { 0%,100%{ height: 6px; } 50%{ height: 26px; } }
+  .timer { font-size: 12px; color: var(--rec); font-weight: 700; width: 38px; }
+  .stopbtn { width: 38px; height: 38px; border-radius: 50%; background: var(--rec); border: none; cursor: pointer; display:flex; align-items:center; justify-content:center;}
+  .stopbtn::after { content: ""; width: 12px; height: 12px; background: #fff; border-radius: 3px; }
+
+  /* draft state */
+  .draft-wrap { display: none; }
+  .draft-wrap.active { display: block; }
+  .draft-label {
+    font-size: 10.5px; font-weight: 700; letter-spacing: .3px;
+    color: var(--draft-border); margin-bottom: 6px; display: flex; align-items: center; gap: 5px;
+  }
+  .draft-label .dotpulse { width: 6px; height: 6px; border-radius: 50%; background: var(--draft-border); animation: blink 1.4s infinite; }
+  .draft-box {
+    border: 1.5px dashed var(--draft-border);
+    background: var(--draft-bg);
+    border-radius: 16px;
+    padding: 10px 12px;
+    font-size: 13.5px;
+    line-height: 1.5;
+    min-height: 44px;
+    outline: none;
+    color: var(--ink);
+  }
+  .draft-box:focus { background: #fffdf5; }
+  .fixword { text-decoration: underline wavy var(--rec); text-decoration-thickness: 1.5px; cursor: pointer; }
+  .draft-actions { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: 8px; }
+  .hint { font-size: 11px; color: var(--mute); margin: 8px 0 0; }
+  .ghost {
+    background: none; border: none; color: var(--mute); font-size: 12px;
+    font-weight: 650; cursor: pointer; padding: 6px 2px;
+  }
+  .live {
+    display: none; margin-top: 8px; font-size: 12.5px; line-height: 1.4; color: var(--ink); min-height: 18px;
+  }
+  .live.show { display: block; }
+  .live em { font-style: normal; color: var(--mute); }
+  .promise {
+    font-size: 11px; color: var(--mute); margin-top: 8px; line-height: 1.35;
+  }
+  .alts {
+    display: none; margin-top: 8px; align-items: center; gap: 6px; flex-wrap: wrap;
+  }
+  .alts.show { display: flex; }
+  .alts span { font-size: 11px; color: var(--mute); }
+  .alts button {
+    border: 1px solid var(--line); background: #fff; border-radius: 14px;
+    padding: 4px 10px; font-size: 12px; font-weight: 700; cursor: pointer; color: var(--ink);
+  }
+  .alts button.likely { border-color: var(--sent-bubble); color: var(--sent-bubble); }
+  .fixed { background: #e7f3ea; border-radius: 3px; padding: 0 2px; }
+  .steps {
+    display: flex; gap: 6px; max-width: 375px; width: 100%; margin: 0 0 12px; padding: 0; list-style: none;
+  }
+  .steps li {
+    flex: 1; font-size: 10px; line-height: 1.2; color: var(--mute);
+    border-top: 2px solid var(--line); padding-top: 4px;
+  }
+  .steps li.on { color: var(--ink); border-top-color: var(--sent-bubble); font-weight: 700; }
+  .steps li.done { color: var(--phase2); border-top-color: var(--phase2); }
+  .cancel {
+    width: 32px; height: 32px; border-radius: 50%; border: none; background: #f2f1f4;
+    color: var(--ink); font-size: 16px; cursor: pointer; flex-shrink: 0;
+  }
+  .sendbtn {
+    background: var(--sent-bubble); color: #fff; border: none; border-radius: 20px;
+    padding: 8px 18px; font-size: 13px; font-weight: 700; cursor: pointer;
+  }
+  .sendbtn:active { transform: scale(0.96); }
+
+  .chip {
+    display: none;
+    margin-top: 8px;
+    align-items: center;
+    gap: 6px;
+    background: var(--phase2-bg);
+    color: var(--phase2);
+    border: 1px solid var(--phase2);
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 11.5px;
+    font-weight: 700;
+    cursor: pointer;
+    width: fit-content;
+  }
+  .chip.show { display: flex; }
+  .phase2tag { font-size: 8.5px; background: var(--phase2); color: #fff; border-radius: 8px; padding: 1px 5px; font-weight: 800; }
+
+  .callouts {
+    max-width: 375px;
+    margin-top: 18px;
+    font-size: 11.5px;
+    color: var(--mute);
+    line-height: 1.5;
+  }
+  .callouts b { color: var(--ink); }
+  .resetbtn {
+    margin-top: 14px;
+    background: none;
+    border: 1px solid var(--line);
+    color: var(--mute);
+    border-radius: 20px;
+    padding: 7px 16px;
+    font-size: 12px;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<div class="intro">
+  <div class="badge">AI-ASSISTED PROTOTYPE · VOICE DRAFT MODE</div>
+  <h1>Voice stays a draft until you send it</h1>
+  <p>Tap the mic. A sample phrase is heard, including one wrong word. Fix it, then send. The thread does not change until Send.</p>
+</div>
+
+<ol class="steps" id="steps">
+  <li class="on" data-step="1">1 · Mic</li>
+  <li data-step="2">2 · Listen</li>
+  <li data-step="3">3 · Draft</li>
+  <li data-step="4">4 · Fix</li>
+  <li data-step="5">5 · Send</li>
+</ol>
+
+<div class="phone">
+  <div class="statusbar"><span>9:41</span><span>●●●●&nbsp; 5G&nbsp; 100%</span></div>
+  <div class="topbar">ChatGPT</div>
+  <div class="chat" id="chat">
+    <div class="msg assistant">Hi! What can I help you with today?</div>
+  </div>
+
+  <div class="inputzone">
+    <!-- idle -->
+    <div class="row" id="idleRow">
+      <div class="textfield" id="idleField">Message ChatGPT</div>
+      <button class="iconbtn mic" id="micBtn" title="Tap to speak">
+        <svg viewBox="0 0 24 24"><path d="M12 14a3 3 0 003-3V6a3 3 0 10-6 0v5a3 3 0 003 3zm5-3a5 5 0 01-10 0H5a7 7 0 006 6.92V21h2v-3.08A7 7 0 0019 11h-2z"/></svg>
+      </button>
+    </div>
+
+    <!-- recording -->
+    <div class="recording-row" id="recRow">
+      <button class="cancel" id="cancelRec" title="Cancel" aria-label="Cancel">×</button>
+      <div class="wave">
+        <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+      </div>
+      <div class="timer" id="timer">0:00</div>
+      <button class="stopbtn" id="stopBtn" title="Stop and review"></button>
+    </div>
+    <div class="live" id="liveLine"><em>Listening… nothing is sent from here.</em></div>
+
+    <!-- draft -->
+    <div class="draft-wrap" id="draftWrap">
+      <div class="draft-label"><span class="dotpulse"></span> DRAFT — REVIEW BEFORE SENDING</div>
+      <div class="draft-box" id="draftBox" contenteditable="true"></div>
+      <div class="alts" id="alts">
+        <span>Heard “roll”.</span>
+        <button type="button" class="likely" data-pick="role">role</button>
+        <button type="button" data-pick="roll">keep roll</button>
+      </div>
+      <div class="chip" id="structChip"><span class="phase2tag">LATER</span> Turn this into a clean list?</div>
+      <div class="hint" id="hint">Tap the underlined word. Nothing is sent yet.</div>
+      <div class="draft-actions">
+        <button class="ghost" id="discardBtn" type="button">Discard</button>
+        <button class="sendbtn" id="sendBtn">Send</button>
+      </div>
+    </div>
+    <div class="promise" id="promise">Nothing sends until you tap Send.</div>
+  </div>
+</div>
+
+<button class="resetbtn" id="resetBtn">↺ Restart demo</button>
+
+<div class="callouts" id="callout">
+  <b>What changed.</b> The mic still starts a recording. The words now land in a draft, and the unsure word can be corrected before ChatGPT ever sees them.
+</div>
+
+<script>
+  const micBtn = document.getElementById('micBtn');
+  const idleRow = document.getElementById('idleRow');
+  const recRow = document.getElementById('recRow');
+  const draftWrap = document.getElementById('draftWrap');
+  const draftBox = document.getElementById('draftBox');
+  const stopBtn = document.getElementById('stopBtn');
+  const sendBtn = document.getElementById('sendBtn');
+  const timerEl = document.getElementById('timer');
+  const chat = document.getElementById('chat');
+  const structChip = document.getElementById('structChip');
+  const resetBtn = document.getElementById('resetBtn');
+  const liveLine = document.getElementById('liveLine');
+  const alts = document.getElementById('alts');
+  const hint = document.getElementById('hint');
+  const discardBtn = document.getElementById('discardBtn');
+  const cancelRec = document.getElementById('cancelRec');
+  const promise = document.getElementById('promise');
+  const callout = document.getElementById('callout');
+
+  const PHRASE = ['Follow-up', 'email', 'to', 'the', 'hiring', 'manager.', 'Still', 'interested,', 'and', 'our', 'chat', 'about', 'the', 'marketing', 'roll.'];
+  let heard = [];
+  let wordTimer = null;
+  let clockTimer = null;
+  let seconds = 0;
+  let recording = false;
+  let settling = false;
+
+  function setStep(n) {
+    document.querySelectorAll('.steps li').forEach((li) => {
+      const step = Number(li.dataset.step);
+      li.classList.toggle('on', step === n);
+      li.classList.toggle('done', step < n);
+    });
+  }
+
+  function showIdle() {
+    recording = false;
+    clearInterval(wordTimer);
+    clearInterval(clockTimer);
+    recRow.classList.remove('active');
+    liveLine.classList.remove('show');
+    draftWrap.classList.remove('active');
+    structChip.classList.remove('show');
+    alts.classList.remove('show');
+    idleRow.style.display = 'flex';
+    promise.hidden = false;
+    setStep(1);
+  }
+
+  micBtn.addEventListener('click', startRecording);
+  cancelRec.addEventListener('click', () => {
+    showIdle();
+    callout.innerHTML = '<b>Cancelled.</b> Nothing was drafted, and nothing was sent.';
+  });
+  stopBtn.addEventListener('click', () => finishRecording(false));
+
+  function startRecording() {
+    if (recording) return;
+    recording = true;
+    settling = false;
+    heard = [];
+    seconds = 0;
+    timerEl.textContent = '0:00';
+    idleRow.style.display = 'none';
+    promise.hidden = true;
+    draftWrap.classList.remove('active');
+    recRow.classList.add('active');
+    liveLine.classList.add('show');
+    liveLine.innerHTML = '<em>Listening… nothing is sent from here.</em>';
+    setStep(2);
+    callout.innerHTML = '<b>Listening.</b> The chat above stays as it was. Stop when the phrase finishes, or stop early.';
+
+    clockTimer = setInterval(() => {
+      seconds += 1;
+      const m = Math.floor(seconds / 60);
+      const s = String(seconds % 60).padStart(2, '0');
+      timerEl.textContent = m + ':' + s;
+    }, 1000);
+
+    let i = 0;
+    wordTimer = setInterval(() => {
+      if (!recording) return;
+      heard.push(PHRASE[i]);
+      liveLine.textContent = heard.join(' ');
+      i += 1;
+      if (i >= PHRASE.length) finishRecording(true);
+    }, 320);
+  }
+
+  function finishRecording(completed) {
+    if (settling || !recording) return;
+    settling = true;
+    recording = false;
+    clearInterval(wordTimer);
+    clearInterval(clockTimer);
+    recRow.classList.remove('active');
+    liveLine.classList.remove('show');
+    if (!heard.length) {
+      showIdle();
+      return;
+    }
+    openDraft(heard.join(' '), completed);
+  }
+
+  function openDraft(text, completed) {
+    const risky = /\broll\b/i.test(text);
+    const html = text.replace(/\broll\b/i, '<span class="fixword" id="fixword">roll</span>');
+    draftBox.innerHTML = html;
+    draftWrap.classList.add('active');
+    alts.classList.remove('show');
+    structChip.classList.remove('show');
+    idleRow.style.display = 'none';
+    promise.hidden = true;
+    setStep(3);
+    if (risky) {
+      hint.textContent = 'Tap the underlined word. Nothing is sent yet.';
+      callout.innerHTML = '<b>Draft, not a message.</b> “Roll” is marked because it may be the wrong word. The thread is unchanged.';
+    } else {
+      hint.textContent = 'Stopped early. Check this, then send or discard.';
+      callout.innerHTML = '<b>Draft, not a message.</b> Only the words heard so far are here. Send is still a separate step.';
+    }
+    const word = document.getElementById('fixword');
+    if (word) {
+      word.addEventListener('mousedown', (event) => event.preventDefault());
+      word.addEventListener('click', (event) => {
+        event.preventDefault();
+        alts.classList.add('show');
+        setStep(4);
+      });
+    } else if (completed && text.split(/\s+/).length > 8) {
+      structChip.classList.add('show');
+    }
+  }
+
+  alts.addEventListener('click', (event) => {
+    const pick = event.target.closest('button');
+    if (!pick) return;
+    const word = document.getElementById('fixword');
+    const choice = pick.dataset.pick;
+    if (word) {
+      if (choice === 'role') {
+        word.outerHTML = '<span class="fixed">role</span>';
+        hint.textContent = 'Changed to “role”. Still not sent.';
+        callout.innerHTML = '<b>Fixed before send.</b> ChatGPT will see “role”, not “roll”. Tap Send when the draft is right.';
+      } else {
+        word.outerHTML = 'roll';
+        hint.textContent = 'Kept “roll”. You can still edit the draft, then send.';
+        callout.innerHTML = '<b>You kept the heard word.</b> Sending now will ask about a marketing roll. That is the miss the draft is for.';
+      }
+    }
+    alts.classList.remove('show');
+    if (draftBox.innerText.split(/\s+/).length > 8) structChip.classList.add('show');
+    setStep(4);
+  });
+
+  structChip.addEventListener('click', () => {
+    const spoken = draftBox.innerText;
+    const topic = /\brole\b/i.test(spoken) ? 'role' : (/\broll\b/i.test(spoken) ? 'roll' : 'topic');
+    draftBox.innerHTML =
+      '<b>Follow-up email</b><br>' +
+      '• Thank the hiring manager<br>' +
+      '• Say you are still interested<br>' +
+      '• Mention the marketing ' + topic + '<br>' +
+      '• Close warmly';
+    structChip.classList.remove('show');
+    alts.classList.remove('show');
+    hint.textContent = 'Still a draft. Send when you want this version.';
+    callout.innerHTML = '<b>Later idea, still not sent.</b> The clean list replaced the draft text only. The chat is unchanged until Send.';
+  });
+
+  discardBtn.addEventListener('click', () => {
+    showIdle();
+    callout.innerHTML = '<b>Discarded.</b> The draft is gone. The chat never received it.';
+  });
+
+  function replyFor(text) {
+    const role = /\brole\b/i.test(text);
+    const roll = /\broll\b/i.test(text);
+    if (roll && !role) {
+      return 'I drafted this around a marketing roll. If you meant the job — the marketing role — tell me and I will rewrite it. That mix-up is what the review step is for.';
+    }
+    if (role) {
+      return 'Here is a follow-up for the marketing role: a thank-you, a line that you are still interested, and a reference to your conversation. Want a warmer close?';
+    }
+    return 'Here is a first pass from what you sent. Want me to change the tone?';
+  }
+
+  sendBtn.addEventListener('click', () => {
+    const text = draftBox.innerText.replace(/\s+/g, ' ').trim();
+    if (!text) return;
+    const userMsg = document.createElement('div');
+    userMsg.className = 'msg user';
+    userMsg.textContent = text;
+    chat.appendChild(userMsg);
+
+    draftWrap.classList.remove('active');
+    structChip.classList.remove('show');
+    alts.classList.remove('show');
+    idleRow.style.display = 'flex';
+    promise.hidden = true;
+    setStep(5);
+
+    const typing = document.createElement('div');
+    typing.className = 'msg assistant typing';
+    typing.innerHTML = '<span class="dot"></span><span class="dot"></span><span class="dot"></span>';
+    chat.appendChild(typing);
+    chat.scrollTop = chat.scrollHeight;
+
+    const answer = replyFor(text);
+    setTimeout(() => {
+      typing.remove();
+      const reply = document.createElement('div');
+      reply.className = 'msg assistant';
+      reply.textContent = answer;
+      chat.appendChild(reply);
+      chat.scrollTop = chat.scrollHeight;
+    }, 900);
+
+    const fixed = /\brole\b/i.test(text) && !/\broll\b/i.test(text);
+    callout.innerHTML = fixed
+      ? '<b>Sent after review.</b> The message in the thread is the edited draft, and the reply is about the role.'
+      : '<b>Sent as heard.</b> The reply follows the words you committed. Fixing “roll” first would have sent “role” instead.';
+  });
+
+  resetBtn.addEventListener('click', () => location.reload());
+</script>
+
+</body>
+</html>
